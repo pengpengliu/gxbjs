@@ -58,7 +58,7 @@ The ChainStore has several useful methods to retrieve, among other things, objec
 import {Apis} from "gxbjs-ws";
 var {ChainStore} = require("gxbjs");
 
-Apis.instance("wss://bitshares.openledger.info/ws", true).init_promise.then((res) => {
+Apis.instance("wss://node.gxb.io", true).init_promise.then((res) => {
     console.log("connected to:", res[0].network);
     ChainStore.init().then(() => {
         ChainStore.subscribe(updateState);
