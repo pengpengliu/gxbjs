@@ -1,6 +1,6 @@
 {
   "name": "gxbjs",
-  "version": "1.2.69",
+  "version": "1.2.70",
   "description": "Pure JavaScript GXB library for node.js and browsers.",
   "browser": {
     "ws": false,
