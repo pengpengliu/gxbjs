@@ -37,7 +37,7 @@ const name_to_string = (name) => {
         let index = tmp.and(i == 0 ? 0x0f : 0x1f).toInt();
         let c = charmap[index];
         str.push(c);
-        tmp = tmp.shiftRight(i == 0 ? 4 : 5);
+        tmp = tmp.shiftRightUnsigned(i == 0 ? 4 : 5);
     }
     return str.reverse().join('').replace(/\.+$/g, '');
 };
