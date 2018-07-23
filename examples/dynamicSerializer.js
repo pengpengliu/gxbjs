@@ -11,6 +11,14 @@ let abi = {
     }
     ],
     "structs": [{
+        "name": "hi",
+        "base": "",
+        "fields": [{
+            "name": "user",
+            "type": "account_name"
+          }
+        ]
+      },{
         "name": "account",
         "base": "",
         "fields": [{
@@ -121,6 +129,7 @@ let abi = {
 };
 
 let serialize = (action, params) => {
+    debugger;
     let struct = abi.structs.find(s => s.name === action);
     let b = new ByteBuffer(ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN);
     struct.fields.forEach(f => {
@@ -139,6 +148,6 @@ let serialize = (action, params) => {
     return new Buffer(b.copy(0, b.offset).toBinary(), 'binary');
 };
 
-let result = serialize('lockasset', {"from": 18, "to": 17, "lock_duration": 100, "release_duration": 3000});
+let result = serialize('hi', {user:'1.2.342'});
 console.log(result.toString('hex'));
 
