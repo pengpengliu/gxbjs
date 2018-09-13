@@ -55,7 +55,7 @@
   "engines": {
     "node": ">= 6.0.0"
   },
-  "main": "./dist/index.js",
+  "main": "./lib/index.js",
   "jsnext:main": "./es/index.js",
   "dependencies": {
     "babel-plugin-add-module-exports": "^0.2.1",
