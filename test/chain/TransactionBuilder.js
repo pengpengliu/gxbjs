@@ -49,7 +49,7 @@ describe("TransactionBuilder", () => {
                 },
                 from: "1.2.579",
                 to: "1.2.492",
-                amount: { amount: accMult("1", Math.pow(10, 5)), asset_id: "1.3.1" }
+                amount: { amount: accMult("0.01", Math.pow(10, 5)), asset_id: "1.3.1" }
             }));
             return Promise.all([tr.update_head_block(), tr.set_required_fees()]).then(() => {
                 tr.broadcast(() => {
