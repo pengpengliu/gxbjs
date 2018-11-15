@@ -25,23 +25,9 @@ describe("TransactionBuilder", () => {
         });
     });
 
-    it("send transaction signed by signProvider", () => {
-        function signProvider(tr, chain_id) {
-            // test key, peep no crime :P
-            var private_key = PrivateKey.fromWif("5Hpk8pvJxfqfkVx9F7rEjaUM6AyLLkx69jpxf4tTZk3U67wEKSc");
-            var public_key = PublicKey.fromPublicKeyString(private_key.toPublicKey());
-            var sig = Signature.signBuffer(
-                Buffer.concat([new Buffer(chain_id, "hex"), tr.tr_buffer]),
-                private_key,
-                public_key
-            );
-
-            // must return array buffer
-            return [sig.toBuffer()];
-        }
-
-        return new Promise((resolve) => {
-            let tr = new TransactionBuilder(signProvider);
+    it("send transaction signed by signer", () => {
+        return new Promise((resolve,reject) => {
+            let tr = new TransactionBuilder();
             tr.add_operation(tr.get_type_operation("transfer", {
                 "fee": {
                     "amount": 0,
@@ -52,9 +38,57 @@ describe("TransactionBuilder", () => {
                 amount: { amount: accMult("0.01", Math.pow(10, 5)), asset_id: "1.3.1" }
             }));
             return Promise.all([tr.update_head_block(), tr.set_required_fees()]).then(() => {
-                tr.broadcast(() => {
+                tr.add_signer(PrivateKey.fromWif("5Hpk8pvJxfqfkVx9F7rEjaUM6AyLLkx69jpxf4tTZk3U67wEKSc"));
+                return tr.broadcast(() => {
                     resolve();
                 });
+            }).catch(err=>{
+                reject(err);
+            });
+        });
+    });
+
+    it("send transaction signed by signProvider", () => {
+        async function signer(tr, chain_id) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    // test key, peep no crime :P
+                    var private_key = PrivateKey.fromWif("5Hpk8pvJxfqfkVx9F7rEjaUM6AyLLkx69jpxf4tTZk3U67wEKSc");
+                    var public_key = PublicKey.fromPublicKeyString(private_key.toPublicKey());
+                    var sig = Signature.signBuffer(
+                        Buffer.concat([new Buffer(chain_id, "hex"), tr.tr_buffer]),
+                        private_key,
+                        public_key
+                    );
+
+                    resolve(sig);
+                }, 2000);
+            });
+        }
+        async function signProvider(tr, chain_id) {
+            const sig = await signer(tr, chain_id);
+
+            // must return array buffer
+            return [sig.toBuffer()];
+        }
+
+        return new Promise((resolve,reject) => {
+            let tr = new TransactionBuilder(signProvider);
+            tr.add_operation(tr.get_type_operation("transfer", {
+                "fee": {
+                    "amount": 0,
+                    "asset_id": "1.3.1"
+                },
+                from: "1.2.579",
+                to: "1.2.492",
+                amount: { amount: accMult("0.02", Math.pow(10, 5)), asset_id: "1.3.1" }
+            }));
+            return Promise.all([tr.update_head_block(), tr.set_required_fees()]).then(() => {
+                return tr.broadcast(() => {
+                    resolve();
+                });
+            }).catch(err=>{
+                reject(err);
             });
         });
     });

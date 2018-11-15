@@ -5,7 +5,14 @@
     ],
     "env": {
         "cjs": {
-            "plugins": ["add-module-exports"]
+            "plugins": [
+                "add-module-exports"
+            ]
         }
-    }
+    },
+    "plugins": [
+        "babel-plugin-transform-async-to-generator",
+        "babel-plugin-external-helpers",
+        "babel-plugin-transform-runtime"
+    ]
 }
