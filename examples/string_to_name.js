@@ -1,5 +1,7 @@
 import {
-    string_to_name
+    string_to_name,
+    name_to_string
 } from "../lib/serializer/src/types";
 
-console.log(string_to_name("diceofferbet"));
+let n = string_to_name("diceofferbet")
+console.log(n,name_to_string(n));
