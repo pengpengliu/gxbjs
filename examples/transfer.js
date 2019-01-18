@@ -4,17 +4,17 @@ import {ChainStore, FetchChain, PrivateKey, TransactionHelper, Aes, TransactionB
 var privKey = "";
 let pKey = PrivateKey.fromWif(privKey);
 
-Apis.instance("ws://192.168.1.118:28090", true)
+Apis.instance("wss://testnet.gxchain.org", true)
     .init_promise.then((res) => {
     // console.log("connected to:", res[0].network_name, "network");
 
     ChainStore.init().then(() => {
 
-        let fromAccount = "gxb123";
+        let fromAccount = "gxb122";
         let memoSender = fromAccount;
         let memo = "Testing transfer from node.js";
 
-        let toAccount = "init0";
+        let toAccount = "test-net";
 
         let sendAmount = {
             amount: 1000000,
