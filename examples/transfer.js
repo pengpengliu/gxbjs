@@ -64,8 +64,13 @@ Apis.instance("wss://testnet.gxchain.org", true)
 
             tr.set_required_fees().then(() => {
                 tr.add_signer(pKey, pKey.toPublicKey().toPublicKeyString());
-                console.log("serialized transaction:", JSON.stringify(tr.serialize(),null,'\t'));
-                tr.broadcast();
+                // console.log("serialized transaction:", JSON.stringify(tr.serialize(),null,'\t'));
+                // tr.broadcast();
+                tr.finalize().then(()=>{
+                    tr.sign().then(()=>{
+                        console.log(JSON.stringify(tr.serialize(),null,'\t'));
+                    })
+                })
             }, (ex)=> {
                 console.error(ex);
             })
