@@ -1,18 +1,18 @@
-'use strict';
+"use strict";
 
 exports.__esModule = true;
 
-var _keys = require('babel-runtime/core-js/object/keys');
+var _keys = require("babel-runtime/core-js/object/keys");
 
 var _keys2 = _interopRequireDefault(_keys);
 
-var _typeof2 = require('babel-runtime/helpers/typeof');
+var _typeof2 = require("babel-runtime/helpers/typeof");
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
-var _bytebuffer = require('bytebuffer');
+var _bytebuffer = require("bytebuffer");
 
-var _ChainTypes = require('../../chain/src/ChainTypes');
+var _ChainTypes = require("../../chain/src/ChainTypes");
 
 var _ChainTypes2 = _interopRequireDefault(_ChainTypes);
 
@@ -36,7 +36,7 @@ var _my = {
         var field_name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
 
         if (this.is_empty(value)) {
-            throw new Error('value required ' + field_name + ' ' + value);
+            throw new Error("value required " + field_name + " " + value);
         }
         return value;
     },
@@ -44,7 +44,7 @@ var _my = {
         var field_name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
 
         if (!_bytebuffer.Long.isLong(value)) {
-            throw new Error('Long value required ' + field_name + ' ' + value);
+            throw new Error("Long value required " + field_name + " " + value);
         }
         return value;
     },
@@ -53,7 +53,7 @@ var _my = {
             return value;
         }
         if (typeof value !== "string") {
-            throw new Error('string required: ' + value);
+            throw new Error("string required: " + value);
         }
         return value;
     },
@@ -62,7 +62,7 @@ var _my = {
             return value;
         }
         if (typeof value !== "number") {
-            throw new Error('number required: ' + value);
+            throw new Error("number required: " + value);
         }
         return value;
     },
@@ -73,7 +73,7 @@ var _my = {
             return value;
         }
         if (/\./.test(value)) {
-            throw new Error('whole number required ' + field_name + ' ' + value);
+            throw new Error("whole number required " + field_name + " " + value);
         }
         return value;
     },
@@ -84,7 +84,7 @@ var _my = {
             return value;
         }
         if (/-/.test(value)) {
-            throw new Error('unsigned required ' + field_name + ' ' + value);
+            throw new Error("unsigned required " + field_name + " " + value);
         }
         return value;
     },
@@ -117,6 +117,7 @@ var _my = {
 
     to_long: function to_long(value) {
         var field_name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+        var unsigned = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
         if (this.is_empty(value)) {
             return value;
@@ -125,11 +126,11 @@ var _my = {
             return value;
         }
 
-        this.no_overflow64(value, field_name);
+        this.no_overflow64(value, field_name, unsigned);
         if (typeof value === "number") {
             value = "" + value;
         }
-        return _bytebuffer.Long.fromString(value);
+        return _bytebuffer.Long.fromString(value, unsigned);
     },
     to_string: function to_string(value) {
         var field_name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
@@ -147,7 +148,7 @@ var _my = {
         if (_bytebuffer.Long.isLong(value)) {
             return value.toString();
         }
-        throw 'unsupported type ' + field_name + ': (' + (typeof value === 'undefined' ? 'undefined' : (0, _typeof3.default)(value)) + ') ' + value;
+        throw "unsupported type " + field_name + ": (" + (typeof value === "undefined" ? "undefined" : (0, _typeof3.default)(value)) + ") " + value;
     },
     require_test: function require_test(regex, value) {
         var field_name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
@@ -156,7 +157,7 @@ var _my = {
             return value;
         }
         if (!regex.test(value)) {
-            throw new Error('unmatched ' + regex + ' ' + field_name + ' ' + value);
+            throw new Error("unmatched " + regex + " " + field_name + " " + value);
         }
         return value;
     },
@@ -170,7 +171,7 @@ var _my = {
         }
         var match = value.match(regex);
         if (match === null) {
-            throw new Error('unmatched ' + regex + ' ' + field_name + ' ' + value);
+            throw new Error("unmatched " + regex + " " + field_name + " " + value);
         }
         return match;
     },
@@ -188,7 +189,7 @@ var _my = {
         }
         var number = this.to_number(value);
         if (value < min || value > max) {
-            throw new Error('out of range ' + value + ' ' + field_name + ' ' + value);
+            throw new Error("out of range " + value + " " + field_name + " " + value);
         }
         return value;
     },
@@ -205,11 +206,11 @@ var _my = {
         }
         var object_type = _ChainTypes2.default.object_type[type];
         if (!object_type) {
-            throw new Error('Unknown object type ' + type + ' ' + field_name + ' ' + value);
+            throw new Error("Unknown object type " + type + " " + field_name + " " + value);
         }
-        var re = new RegExp(reserved_spaces + '.' + object_type + '.[0-9]+$');
+        var re = new RegExp(reserved_spaces + "." + object_type + ".[0-9]+$");
         if (!re.test(value)) {
-            throw new Error('Expecting ' + type + ' in format ' + (reserved_spaces + '.' + object_type + '.[0-9]+ ') + ('instead of ' + value + ' ' + field_name + ' ' + value));
+            throw new Error("Expecting " + type + " in format " + (reserved_spaces + "." + object_type + ".[0-9]+ ") + ("instead of " + value + " " + field_name + " " + value));
         }
         return value;
     },
@@ -219,7 +220,7 @@ var _my = {
             return value;
         }
         this.require_object_type(reserve_spaces, type, value, field_name);
-        return this.to_number(value.split('.')[2]);
+        return this.to_number(value.split(".")[2]);
     },
 
     require_relative_type: function require_relative_type(type, value, field_name) {
@@ -232,7 +233,7 @@ var _my = {
             return value;
         }
         this.require_object_type(0, type, value, field_name);
-        return this.to_number(value.split('.')[2]);
+        return this.to_number(value.split(".")[2]);
     },
 
     require_protocol_type: function require_protocol_type(type, value, field_name) {
@@ -245,7 +246,7 @@ var _my = {
             return value;
         }
         this.require_object_type(1, type, value, field_name);
-        return this.to_number(value.split('.')[2]);
+        return this.to_number(value.split(".")[2]);
     },
 
     get_protocol_type: function get_protocol_type(value, field_name) {
@@ -253,7 +254,7 @@ var _my = {
             return value;
         }
         this.require_object_id(value, field_name);
-        var values = value.split('.');
+        var values = value.split(".");
         return this.to_number(values[1]);
     },
 
@@ -276,7 +277,7 @@ var _my = {
             return value;
         }
         this.require_object_type(2, type, value, field_name);
-        return this.to_number(value.split('.')[2]);
+        return this.to_number(value.split(".")[2]);
     },
 
     // signed / unsigned decimal
@@ -285,14 +286,14 @@ var _my = {
 
         if (typeof value === "number") {
             if (value > MAX_SAFE_INT || value < MIN_SAFE_INT) {
-                throw new Error('overflow ' + field_name + ' ' + value);
+                throw new Error("overflow " + field_name + " " + value);
             }
             return;
         }
         if (typeof value === "string") {
             var int = parseInt(value);
             if (value > MAX_SAFE_INT || value < MIN_SAFE_INT) {
-                throw new Error('overflow ' + field_name + ' ' + value);
+                throw new Error("overflow " + field_name + " " + value);
             }
             return;
         }
@@ -301,7 +302,7 @@ var _my = {
             this.no_overflow53(value.toInt(), field_name);
             return;
         }
-        throw 'unsupported type ' + field_name + ': (' + (typeof value === 'undefined' ? 'undefined' : (0, _typeof3.default)(value)) + ') ' + value;
+        throw "unsupported type " + field_name + ": (" + (typeof value === "undefined" ? "undefined" : (0, _typeof3.default)(value)) + ") " + value;
     },
 
 
@@ -322,7 +323,7 @@ var _my = {
 
         if (typeof value === "string") {
             // remove leading zeros, will cause a false positive
-            value = value.replace(/^0+/, '');
+            value = value.replace(/^0+/, "");
             // remove trailing zeros
             while (/0$/.test(value)) {
                 value = value.substring(0, value.length - 1);
@@ -336,20 +337,20 @@ var _my = {
             }
             var long_string = _bytebuffer.Long.fromString(value).toString();
             if (long_string !== value.trim()) {
-                throw new Error('overflow ' + field_name + ' ' + value);
+                throw new Error("overflow " + field_name + " " + value);
             }
             return;
         }
         if (typeof value === "number") {
             if (value > MAX_SAFE_INT || value < MIN_SAFE_INT) {
-                throw new Error('overflow ' + field_name + ' ' + value);
+                throw new Error("overflow " + field_name + " " + value);
             }
             return;
         }
 
-        throw 'unsupported type ' + field_name + ': (' + (typeof value === 'undefined' ? 'undefined' : (0, _typeof3.default)(value)) + ') ' + value;
+        throw "unsupported type " + field_name + ": (" + (typeof value === "undefined" ? "undefined" : (0, _typeof3.default)(value)) + ") " + value;
     }
 };
 
 exports.default = _my;
-module.exports = exports['default'];
+module.exports = exports["default"];

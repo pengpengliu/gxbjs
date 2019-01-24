@@ -159,11 +159,11 @@ Types.uint64 = {
         return b.readUint64();
     },
     appendByteBuffer: function appendByteBuffer(b, object) {
-        b.writeUint64(_SerializerValidation2.default.to_long(_SerializerValidation2.default.unsigned(object)));
+        b.writeUint64(_SerializerValidation2.default.to_long(_SerializerValidation2.default.unsigned(object), undefined, true));
         return;
     },
     fromObject: function fromObject(object) {
-        return _SerializerValidation2.default.to_long(_SerializerValidation2.default.unsigned(object));
+        return _SerializerValidation2.default.to_long(_SerializerValidation2.default.unsigned(object), undefined, true);
     },
     toObject: function toObject(object) {
         var debug = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -180,7 +180,7 @@ Types.string = {
         var b_copy;
         var len = b.readVarint32();
         b_copy = b.copy(b.offset, b.offset + len), b.skip(len);
-        return new Buffer(b_copy.toBinary(), 'binary');
+        return new Buffer(b_copy.toBinary(), "binary");
     },
     appendByteBuffer: function appendByteBuffer(b, object) {
         _SerializerValidation2.default.required(object);
