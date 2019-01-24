@@ -24,7 +24,8 @@
     "browserify_tx_serializer":"browserify --full-paths dist/tx_serializer.js --standalone serializer -o build/tx_serializer.js -d",
     "postbrowserify_tx_serializer": "uglifyjs --compress --mangle --sequences --drop_console --output build/tx_serializer.min.js -- build/tx_serializer.js",
     "prepublish": "npm run build",
-    "doc": "esdoc -c esdoc.json"
+    "doc": "esdoc -c esdoc.json",
+    "demo": "babel-node"
   },
   "repository": {
     "type": "git",
