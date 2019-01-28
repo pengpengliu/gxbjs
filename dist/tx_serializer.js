@@ -65,5 +65,5 @@ var serializeCallData = exports.serializeCallData = function serializeCallData(a
 };
 
 var serializeTransaction = exports.serializeTransaction = function serializeTransaction(transaction) {
-    return ops.transaction.toBuffer(transaction);
+    return ops.transaction.toBuffer(ops.transaction.fromObject(transaction));
 };
