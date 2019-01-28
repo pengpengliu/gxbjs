@@ -2,37 +2,48 @@ import {serializeTransaction} from "../lib/tx_serializer";
 import { Signature, PrivateKey } from "../lib/ecc";
 
 console.log(serializeTransaction({
-        "ref_block_num": 52464,
-        "ref_block_prefix": 3732841332,
-        "expiration": "2019-01-18T11:35:37",
-        "operations": [
+        "expiration" : "2019-01-28T14:34:06",
+        "extensions" : [
+
+        ],
+        "operations" : [
             [
-                0,
+                6,
                 {
-                    "fee": {
-                        "amount": "1242",
-                        "asset_id": "1.3.1"
+                    "account" : "1.2.1110",
+                    "new_options" : {
+                        "num_committee" : 2,
+                        "votes" : [
+                            "1:1",
+                            "0:12",
+                            "0:79",
+                            "1:80",
+                            "0:103",
+                            "1:104",
+                            "1:135",
+                            "1:136",
+                            "0:145",
+                            "0:146"
+                        ],
+                        "extensions" : [
+
+                        ],
+                        "voting_account" : "1.2.5",
+                        "memo_key" : "GXC69R784krfXRuFYMuNwhTTnMGPMuCSSng3WPssL6vrXRqTYCLT4",
+                        "num_witness" : 2
                     },
-                    "from": "1.2.1110",
-                    "to": "1.2.254",
-                    "amount": {
-                        "amount": "1000000",
-                        "asset_id": "1.3.1"
-                    },
-                    "memo": {
-                        "from": "GXC69R784krfXRuFYMuNwhTTnMGPMuCSSng3WPssL6vrXRqTYCLT4",
-                        "to": "GXC7xSR83xcXECGCtyxboNbuhQwnyjVksgtMLX422nDhSM9d2TPRF",
-                        "nonce": "396239698216808",
-                        "message": "e2fff4995e6ca5eab02d62b7e643e3e2fe8454f809bf40f31991f0463a0685cf3c0d0869b4cafaadb074eaba8c981146"
-                    },
-                    "extensions": []
+                    "extensions" : [
+
+                    ],
+                    "fee" : {
+                        "asset_id" : "1.3.1",
+                        "amount" : 109
+                    }
                 }
             ]
         ],
-        "extensions": [],
-        "signatures": [
-            "1f140f78bfac0984f5a5945d0dd489bc33f480a35651aa7a5a3fcc197f40d3bdf425061ada73769228083039bf37507e953d7c4cd45c955e2a6766b15afee8c577"
-        ]
+        "ref_block_prefix" : 61153748,
+        "ref_block_num" : 54375
     }
 ).toString('hex'));
 
