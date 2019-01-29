@@ -77,9 +77,9 @@ var TransactionBuilder = function () {
 
     /**
         This does it all: set fees, finalize, sign, and broadcast (if wanted).
-          @arg {ConfidentialWallet} cwallet - must be unlocked, used to gather signing keys
-          @arg {array<string>} [signer_pubkeys = null] - Optional ["GPHAbc9Def0...", ...].  These are additional signing keys.  Some balance claims require propritary address formats, the witness node can't tell us which ones are needed so they must be passed in.  If the witness node can figure out a signing key (mostly all other transactions), it should not be passed in here.
-          @arg {boolean} [broadcast = false]
+         @arg {ConfidentialWallet} cwallet - must be unlocked, used to gather signing keys
+         @arg {array<string>} [signer_pubkeys = null] - Optional ["GPHAbc9Def0...", ...].  These are additional signing keys.  Some balance claims require propritary address formats, the witness node can't tell us which ones are needed so they must be passed in.  If the witness node can figure out a signing key (mostly all other transactions), it should not be passed in here.
+         @arg {boolean} [broadcast = false]
     */
 
 
