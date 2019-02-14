@@ -22,10 +22,10 @@ var MAX_SAFE_INT = 9007199254740991;
 var MIN_SAFE_INT = -9007199254740991;
 
 /**
-    Most validations are skipped and the value returned unchanged when an empty string, null, or undefined is encountered (except "required").
+ Most validations are skipped and the value returned unchanged when an empty string, null, or undefined is encountered (except "required").
 
-    Validations support a string format for dealing with large numbers.
-*/
+ Validations support a string format for dealing with large numbers.
+ */
 var _my = {
 
     is_empty: function is_empty(value) {
@@ -309,6 +309,7 @@ var _my = {
     // signed / unsigned whole numbers only
     no_overflow64: function no_overflow64(value) {
         var field_name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+        var unsigned = arguments[2];
 
         // https://github.com/dcodeIO/Long.js/issues/20
         if (_bytebuffer.Long.isLong(value)) {
@@ -335,7 +336,7 @@ var _my = {
             if (value === "") {
                 value = "0";
             }
-            var long_string = _bytebuffer.Long.fromString(value).toString();
+            var long_string = _bytebuffer.Long.fromString(value, unsigned).toString();
             if (long_string !== value.trim()) {
                 throw new Error("overflow " + field_name + " " + value);
             }
