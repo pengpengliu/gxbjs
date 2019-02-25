@@ -31,7 +31,6 @@ var _ecsignature2 = _interopRequireDefault(_ecsignature);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var secp256k1 = (0, _ecurve.getCurveByName)('secp256k1');
-
 var secp256k1Lib = require("secp256k1");
 
 var Signature = function () {
@@ -70,8 +69,8 @@ var Signature = function () {
     };
 
     /**
-        @return {PublicKey}
-    */
+     @return {PublicKey}
+     */
     Signature.prototype.recoverPublicKey = function recoverPublicKey(sha256_buffer) {
         var Q = void 0,
             e = void 0,
@@ -84,14 +83,30 @@ var Signature = function () {
         return _PublicKey2.default.fromPoint(Q);
     };
 
+    Signature.prototype.isCanonical = function isCanonical() {
+        var r = this.r.toBuffer(32);
+        var s = this.s.toBuffer(32);
+        return !(r[0] & 0x80) && !(r[0] == 0 && !(r[1] & 0x80)) && !(s[0] & 0x80) && !(s[0] == 0 && !(s[1] & 0x80));
+    };
+
     /**
-        @param {Buffer} buf
-        @param {PrivateKey} private_key
-        @return {Signature}
-    */
+     @param {Buffer} buf
+     @param {PrivateKey} private_key
+     @return {Signature}
+     */
+
+
     Signature.signBuffer = function signBuffer(buf, private_key) {
         var _hash = (0, _hash2.sha256)(buf);
-        return Signature.signBufferSha256V2(_hash, private_key);
+        var signature = Signature.signBufferSha256V2(_hash, private_key);
+        var times = 0;
+        while (!signature.isCanonical()) {
+            signature = Signature.signBufferSha256V2(_hash, private_key);
+            if (times++ > 10) {
+                console.log('WARN: ECDSA tried', times, 'times');
+            }
+        }
+        return signature;
     };
 
     Signature.signBufferSha256V2 = function signBufferSha256V2(_hash, private_key) {
@@ -121,10 +136,10 @@ var Signature = function () {
     };
 
     /** Sign a buffer of exactally 32 bytes in size (sha256(text))
-        @param {Buffer} buf - 32 bytes binary
-        @param {PrivateKey} private_key
-        @return {Signature}
-    */
+     @param {Buffer} buf - 32 bytes binary
+     @param {PrivateKey} private_key
+     @return {Signature}
+     */
 
 
     Signature.signBufferSha256 = function signBufferSha256(buf_sha256, private_key) {
@@ -157,10 +172,10 @@ var Signature = function () {
     };
 
     /**
-        @param {Buffer} un-hashed
-        @param {./PublicKey}
-        @return {boolean}
-    */
+     @param {Buffer} un-hashed
+     @param {./PublicKey}
+     @return {boolean}
+     */
     Signature.prototype.verifyBuffer = function verifyBuffer(buf, public_key) {
         var _hash = (0, _hash2.sha256)(buf);
         return this.verifyHashV2(_hash, public_key);
