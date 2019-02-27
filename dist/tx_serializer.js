@@ -7,6 +7,9 @@ var _stringify = require("babel-runtime/core-js/json/stringify");
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
+exports.deserializeCallData = deserializeCallData;
+exports.makeSerializer = makeSerializer;
+
 var _types = require("./serializer/src/types");
 
 var _types2 = _interopRequireDefault(_types);
@@ -15,9 +18,7 @@ var _operations = require("./serializer/src/operations");
 
 var ops = _interopRequireWildcard(_operations);
 
-var _bytebuffer = require("bytebuffer");
-
-var _bytebuffer2 = _interopRequireDefault(_bytebuffer);
+var _serializer = require("./serializer");
 
 require("idempotent-babel-polyfill");
 
@@ -29,14 +30,47 @@ function isArrayType(type) {
     return type.indexOf("[]") !== -1;
 }
 
+/**
+ * serialize call data
+ * @param {String} action - call action
+ * @param {Object} params - call params
+ * @param {Object} abi 
+ */
 var serializeCallData = exports.serializeCallData = function serializeCallData(action, params, abi) {
+    var ser = makeSerializer(abi, action);
+    return ser.toBuffer(params);
+};
+
+/**
+ * deserialize call data
+ * @param {String} action - call action
+ * @param {String} data - data hex string
+ * @param {Object} abi - contract abi
+ */
+function deserializeCallData(action, data, abi) {
+    // construct serializer
+    var serializer = makeSerializer(abi, action);
+    // dserialize from hex
+    return serializer.toObject(serializer.fromHex(data));
+}
+
+var serializeTransaction = exports.serializeTransaction = function serializeTransaction(transaction) {
+    return ops.transaction.toBuffer(ops.transaction.fromObject(transaction));
+};
+
+/**
+ * make serializer by abi and action
+ * @param {Object} abi 
+ * @param {String} action 
+ */
+function makeSerializer(abi, action) {
     abi = JSON.parse((0, _stringify2.default)(abi));
     var struct = abi.structs.find(function (s) {
         return s.name === action;
     });
-    var b = new _bytebuffer2.default(_bytebuffer2.default.DEFAULT_CAPACITY, _bytebuffer2.default.LITTLE_ENDIAN);
+    var typeObj = {};
+
     struct.fields.forEach(function (f) {
-        var value = params[f.name];
         var isArrayFlag = false;
         if (isArrayType(f.type)) {
             isArrayFlag = true;
@@ -60,12 +94,10 @@ var serializeCallData = exports.serializeCallData = function serializeCallData(a
             if (isArrayFlag) {
                 type = _types2.default.set(type);
             }
-            type.appendByteBuffer(b, type.fromObject(value));
         }
-    });
-    return Buffer.from(b.copy(0, b.offset).toBinary(), "binary");
-};
 
-var serializeTransaction = exports.serializeTransaction = function serializeTransaction(transaction) {
-    return ops.transaction.toBuffer(ops.transaction.fromObject(transaction));
-};
+        typeObj[f.name] = type;
+    });
+
+    return new _serializer.Serializer("temp", typeObj);
+}
