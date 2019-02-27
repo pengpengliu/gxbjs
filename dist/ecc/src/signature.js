@@ -83,6 +83,10 @@ var Signature = function () {
         return _PublicKey2.default.fromPoint(Q);
     };
 
+    /**
+     * signature malleability check https://github.com/bitshares/bitshares1-core/issues/1129
+     * @returns {boolean}
+     */
     Signature.prototype.isCanonical = function isCanonical() {
         var r = this.r.toBuffer(32);
         var s = this.s.toBuffer(32);
