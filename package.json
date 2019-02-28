@@ -48,7 +48,6 @@
     "main": "./dist/index.js",
     "jsnext:main": "./es/index.js",
     "dependencies": {
-        "babel-polyfill": "^6.26.0",
         "bigi": "^1.4.1",
         "bs58": "^3.0.0",
         "bytebuffer": "^5.0.0",

@@ -3,6 +3,10 @@
 exports.__esModule = true;
 exports.serializeTransaction = exports.serializeCallData = undefined;
 
+var _find = require("babel-runtime/core-js/array/find");
+
+var _find2 = _interopRequireDefault(_find);
+
 var _stringify = require("babel-runtime/core-js/json/stringify");
 
 var _stringify2 = _interopRequireDefault(_stringify);
@@ -63,7 +67,7 @@ var serializeTransaction = exports.serializeTransaction = function serializeTran
  */
 function makeSerializer(abi, action) {
     abi = JSON.parse((0, _stringify2.default)(abi));
-    var struct = abi.structs.find(function (s) {
+    var struct = (0, _find2.default)(abi.structs, function (s) {
         return s.name === action;
     });
     var typeObj = {};
@@ -77,7 +81,7 @@ function makeSerializer(abi, action) {
 
         var type = _types2.default[f.type];
         if (!type) {
-            var t = abi.types.find(function (t) {
+            var t = (0, _find2.default)(abi.types, function (t) {
                 return t.new_type_name === f.type;
             });
             if (t) {
