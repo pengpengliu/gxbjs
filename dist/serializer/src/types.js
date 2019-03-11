@@ -25,9 +25,15 @@ var _ObjectId2 = _interopRequireDefault(_ObjectId);
 
 var _ecc = require("../../ecc");
 
+var _bytebuffer = require("bytebuffer");
+
+var _bytebuffer2 = _interopRequireDefault(_bytebuffer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Types = {}; // Low-level types that make up operations
+// Low-level types that make up operations
+
+var Types = {};
 
 var HEX_DUMP = process.env.npm_config__graphene_serializer_hex_dump;
 
@@ -184,9 +190,9 @@ Types.string = {
     },
     appendByteBuffer: function appendByteBuffer(b, object) {
         _SerializerValidation2.default.required(object);
-        var len = object.length;
+        var len = typeof object === "string" ? _bytebuffer2.default.calculateUTF8Bytes(object) : object.length;
         b.writeVarint32(len);
-        b.append(object.toString("binary"), "binary");
+        b.append(object, "utf8");
         return;
     },
     fromObject: function fromObject(object) {
