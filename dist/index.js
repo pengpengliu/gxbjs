@@ -125,8 +125,9 @@ exports.brainKey = _BrainKey2.default;
 exports.hash = hash;
 exports.key = _KeyUtils2.default;
 exports.ECSignature = _ecsignature2.default;
-var FetchChainObjects = _ChainStore2.default.FetchChainObjects,
-    FetchChain = _ChainStore2.default.FetchChain;
+
+// const {FetchChainObjects, FetchChain} = ChainStore;
+
 exports.ChainStore = _ChainStore2.default;
 exports.TransactionBuilder = _TransactionBuilder2.default;
 exports.FetchChainObjects = FetchChainObjects;
