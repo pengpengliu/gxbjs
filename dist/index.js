@@ -1,7 +1,7 @@
 "use strict";
 
 exports.__esModule = true;
-exports.Login = exports.FetchChain = exports.ChainValidation = exports.TransactionHelper = exports.NumberUtils = exports.ObjectId = exports.EmitterInstance = exports.ChainTypes = exports.FetchChainObjects = exports.TransactionBuilder = exports.ChainStore = exports.ECSignature = exports.key = exports.hash = exports.brainKey = exports.Signature = exports.PublicKey = exports.PrivateKey = exports.Aes = exports.Address = exports.object_id_type = exports.string_to_name = exports.name_to_string = exports.SerializerValidation = exports.template = exports.ops = exports.types = exports.fp = exports.Serializer = undefined;
+exports.Login = exports.ChainValidation = exports.TransactionHelper = exports.NumberUtils = exports.ObjectId = exports.EmitterInstance = exports.ChainTypes = exports.TransactionBuilder = exports.ChainStore = exports.ECSignature = exports.key = exports.hash = exports.brainKey = exports.Signature = exports.PublicKey = exports.PrivateKey = exports.Aes = exports.Address = exports.object_id_type = exports.string_to_name = exports.name_to_string = exports.SerializerValidation = exports.template = exports.ops = exports.types = exports.fp = exports.Serializer = undefined;
 
 var _serializer = require("./serializer/src/serializer");
 
@@ -131,12 +131,10 @@ exports.ECSignature = _ecsignature2.default;
 
 exports.ChainStore = _ChainStore2.default;
 exports.TransactionBuilder = _TransactionBuilder2.default;
-exports.FetchChainObjects = FetchChainObjects;
 exports.ChainTypes = _ChainTypes2.default;
 exports.EmitterInstance = _EmitterInstance2.default;
 exports.ObjectId = _ObjectId2.default;
 exports.NumberUtils = _NumberUtils2.default;
 exports.TransactionHelper = _TransactionHelper2.default;
 exports.ChainValidation = _ChainValidation2.default;
-exports.FetchChain = FetchChain;
 exports.Login = _AccountLogin2.default;
