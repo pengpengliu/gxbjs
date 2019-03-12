@@ -126,6 +126,7 @@ exports.hash = hash;
 exports.key = _KeyUtils2.default;
 exports.ECSignature = _ecsignature2.default;
 
+// in order to use webpack tree shaking to reduce bundle size
 // const {FetchChainObjects, FetchChain} = ChainStore;
 
 exports.ChainStore = _ChainStore2.default;
