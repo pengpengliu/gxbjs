@@ -138,7 +138,10 @@ ChainTypes.operations = {
     proxy_transfer: 73,
     create_contract: 74,
     call_contract: 75,
-    update_contract: 76
+    update_contract: 76,
+    trust_node_pledge_withdraw: 77,
+    inline_transfer: 78,
+    inter_contract_call: 79
 };
 
 exports.default = ChainTypes;
