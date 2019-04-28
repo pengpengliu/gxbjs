@@ -296,6 +296,8 @@ Types.void = {
 };
 
 Types.array = function (st_operation) {
+    var no_sort = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
     return {
         fromByteBuffer: function fromByteBuffer(b) {
             var size = b.readVarint32();
@@ -306,11 +308,16 @@ Types.array = function (st_operation) {
             for (var i = 0; 0 < size ? i < size : i > size; 0 < size ? i++ : i++) {
                 result.push(st_operation.fromByteBuffer(b));
             }
-            return sortOperation(result, st_operation);
+            if (!no_sort) {
+                return sortOperation(result, st_operation);
+            }
+            return result;
         },
         appendByteBuffer: function appendByteBuffer(b, object) {
             _SerializerValidation2.default.required(object);
-            object = sortOperation(object, st_operation);
+            if (!no_sort) {
+                object = sortOperation(object, st_operation);
+            }
             b.writeVarint32(object.length);
             for (var i = 0, o; i < object.length; i++) {
                 o = object[i];
@@ -319,7 +326,9 @@ Types.array = function (st_operation) {
         },
         fromObject: function fromObject(object) {
             _SerializerValidation2.default.required(object);
-            object = sortOperation(object, st_operation);
+            if (!no_sort) {
+                object = sortOperation(object, st_operation);
+            }
             var result = [];
             for (var i = 0, o; i < object.length; i++) {
                 o = object[i];
@@ -334,8 +343,9 @@ Types.array = function (st_operation) {
                 return [st_operation.toObject(object, debug)];
             }
             _SerializerValidation2.default.required(object);
-            object = sortOperation(object, st_operation);
-
+            if (!no_sort) {
+                object = sortOperation(object, st_operation);
+            }
             var result = [];
             for (var i = 0, o; i < object.length; i++) {
                 o = object[i];

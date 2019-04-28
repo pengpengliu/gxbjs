@@ -36,7 +36,7 @@ function isArrayType(type) {
  * serialize call data
  * @param {String} action - call action
  * @param {Object} params - call params
- * @param {Object} abi 
+ * @param {Object} abi
  */
 var serializeCallData = exports.serializeCallData = function serializeCallData(action, params, abi) {
     var ser = makeSerializer(abi, action);
@@ -62,8 +62,8 @@ var serializeTransaction = exports.serializeTransaction = function serializeTran
 
 /**
  * make serializer by abi and action
- * @param {Object} abi 
- * @param {String} action 
+ * @param {Object} abi
+ * @param {String} action
  */
 function makeSerializer(abi, action) {
     abi = JSON.parse((0, _stringify2.default)(abi));
@@ -94,7 +94,7 @@ function makeSerializer(abi, action) {
 
         if (type) {
             if (isArrayFlag) {
-                type = _types2.default.set(type);
+                type = _types2.default.array(type, true);
             }
         }
 
