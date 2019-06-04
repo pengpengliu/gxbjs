@@ -182,8 +182,8 @@ var TransactionBuilder = function () {
             resolve(_gxbjsWs.Apis.instance().db_api().exec("get_objects", [["2.1.0"]]).then(function (r) {
                 head_block_time_string = r[0].time;
                 if (_this2.expiration === 0) _this2.expiration = base_expiration_sec() + _gxbjsWs.ChainConfig.expire_in_secs;
-                _this2.ref_block_num = r[0].head_block_number & 0xFFFF;
-                _this2.ref_block_prefix = new Buffer(r[0].head_block_id, "hex").readUInt32LE(4);
+                _this2.ref_block_num = _this2.ref_block_num || r[0].head_block_number & 0xFFFF;
+                _this2.ref_block_prefix = _this2.ref_block_prefix || new Buffer(r[0].head_block_id, "hex").readUInt32LE(4);
                 //DEBUG console.log("ref_block",@ref_block_num,@ref_block_prefix,r)
 
                 var iterable = _this2.operations;
